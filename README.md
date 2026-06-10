@@ -1,92 +1,87 @@
-# World Cup 2026 — Probabilistic Match Predictions
+# Mundial 2026 — Predicciones Probabilísticas
 
-Predictive analytics platform for the FIFA World Cup 2026, forecasting all 104 tournament matches using the Dixon-Coles statistical model and Monte Carlo simulation.
+Plataforma de predicción para la Copa Mundial de la FIFA 2026. Pronostica los 104 partidos del torneo utilizando el modelo estadístico Dixon-Coles y simulación Monte Carlo.
 
-## Methodology
+## Metodología
 
-The prediction engine combines two established approaches:
+El motor de predicción combina dos enfoques establecidos:
 
-**Dixon-Coles Model (1997)** — A bivariate Poisson regression model that estimates attack and defense strength parameters for each national team. The model applies a low-score correction factor to improve accuracy for common football results (0-0, 1-0, 0-1, 1-1). Matches are time-weighted, giving more importance to recent results.
+**Modelo Dixon-Coles (1997)** — Regresión de Poisson bivariada que estima parámetros de fuerza ofensiva y defensiva para cada selección nacional. El modelo aplica un factor de corrección para mejorar la precisión en resultados frecuentes del fútbol (0-0, 1-0, 0-1, 1-1). Los partidos se ponderan temporalmente, dando mayor importancia a los resultados recientes.
 
-**Monte Carlo Simulation** — 10,000 complete tournament simulations are run, each simulating the full group stage, Round of 32, Round of 16, quarterfinals, semifinals, third-place match, and final. Knockout draws in regulation time are resolved via penalty shootouts (50/50 probability split).
+**Simulación Monte Carlo** — Se ejecutan 10,000 simulaciones completas del torneo, cada una simulando la fase de grupos, dieciseisavos, octavos, cuartos de final, semifinales, tercer puesto y final. Los empates en fase eliminatoria se resuelven mediante tandas de penales.
 
-## Data
+## Datos
 
-- **Source:** [martj42/international_results](https://github.com/martj42/international_results) — approximately 50,000 international matches from 1872 to 2026
-- **Tournament structure:** 48 teams, 12 groups of 4, top 2 plus 8 best third-placed teams advance to Round of 32
-- **Groups:** Official FIFA draw
+- **Fuente:** [martj42/international_results](https://github.com/martj42/international_results) — aproximadamente 50,000 partidos internacionales desde 1872 hasta 2026
+- **Formato:** 48 selecciones, 12 grupos de 4, clasifican 1° y 2° más 8 mejores terceros a dieciseisavos de final
+- **Grupos:** Sorteo oficial FIFA
 
-## Dashboard
+## Panel de Predicciones
 
-The interactive dashboard provides:
+El panel interactivo incluye:
 
-- Group stage predictions with score probabilities for all 72 group matches
-- Knockout bracket visualization with advancement probabilities by round
-- Championship probability rankings for all 48 participating teams
-- Downloadable CSV with complete match predictions
+- Predicciones de fase de grupos con probabilidades de marcador para los 72 partidos
+- Visualización de la fase eliminatoria con probabilidades de avance por ronda
+- Ranking de probabilidad de campeón para las 48 selecciones
+- Tabla completa de probabilidades por ronda
 
-## Project Structure
+**[Ver predicciones](https://xwilberx.github.io/worldcup-2026/)**
+
+## Estructura del Proyecto
 
 ```
 worldcup-2026/
-├── dashboard/app.py              # Streamlit dashboard
+├── docs/index.html                # Panel de predicciones (GitHub Pages)
+├── dashboard/app.py               # Panel interactivo Streamlit
 ├── src/
-│   ├── data/loader.py            # Data loading and preprocessing
+│   ├── data/loader.py             # Carga y preprocesamiento de datos
 │   ├── models/
-│   │   ├── elo.py                # Elo rating system
-│   │   ├── dixon_coles.py        # Dixon-Coles Poisson model
-│   │   └── evaluate.py           # Backtesting metrics
+│   │   ├── elo.py                 # Sistema de rating Elo
+│   │   ├── dixon_coles.py         # Modelo Dixon-Coles Poisson
+│   │   └── evaluate.py            # Métricas de backtesting
 │   └── simulation/
-│       ├── tournament.py         # Tournament structure and group logic
-│       └── monte_carlo.py        # Monte Carlo tournament simulator
+│       ├── tournament.py          # Estructura del torneo y fase de grupos
+│       └── monte_carlo.py         # Simulador Monte Carlo
 ├── scripts/
-│   ├── download_data.py          # Dataset download script
-│   └── train_model.py            # Full training pipeline
+│   ├── download_data.py           # Descarga del dataset
+│   └── train_model.py             # Pipeline completo de entrenamiento
 ├── data/
-│   ├── raw/                      # Raw match data (downloaded separately)
-│   └── processed/                # Trained model and simulation results
-└── pyproject.toml                # Dependencies (managed with uv)
+│   ├── raw/                       # Datos crudos (descarga separada)
+│   └── processed/                 # Modelo entrenado y resultados
+└── pyproject.toml                 # Dependencias (gestionado con uv)
 ```
 
-## Quick Start
+## Inicio Rápido
 
-**Prerequisites:** Python 3.10+ and [uv](https://docs.astral.sh/uv/)
+**Requisitos:** Python 3.10+ y [uv](https://docs.astral.sh/uv/)
 
 ```bash
-# Clone repository
 git clone https://github.com/XwilberX/worldcup-2026.git
 cd worldcup-2026
 
-# Install dependencies
 uv sync
-
-# Download match data
 uv run python scripts/download_data.py
-
-# Train model and run simulation
 uv run python scripts/train_model.py
-
-# Launch dashboard
 uv run streamlit run dashboard/app.py
 ```
 
-## Top Predictions
+## Principales Predicciones
 
-Based on 10,000 Monte Carlo simulations (as of June 10, 2026):
+Basado en 10,000 simulaciones Monte Carlo (10 de junio de 2026):
 
-| Rank | Team | Championship |
-|------|------|-------------|
+| # | Selección | Campeón |
+|---|-----------|---------|
 | 1 | Argentina | 21.4% |
-| 2 | Brazil | 17.8% |
-| 3 | Spain | 9.3% |
+| 2 | Brasil | 17.8% |
+| 3 | España | 9.3% |
 | 4 | Colombia | 8.9% |
-| 5 | France | 6.3% |
-| 6 | England | 4.5% |
+| 5 | Francia | 6.3% |
+| 6 | Inglaterra | 4.5% |
 | 7 | Uruguay | 4.4% |
 | 8 | Portugal | 3.9% |
 | 9 | Ecuador | 3.3% |
-| 10 | Netherlands | 2.5% |
+| 10 | Países Bajos | 2.5% |
 
-## Limitations
+## Limitaciones
 
-These predictions are probabilistic. The model does not account for player injuries, suspensions, managerial changes, or weather conditions. Historical performance does not guarantee future results. All predictions should be interpreted as statistical estimates, not certainties.
+Las predicciones son probabilísticas. El modelo no contempla lesiones de jugadores, suspensiones, cambios de director técnico ni condiciones climáticas. El rendimiento histórico no garantiza resultados futuros. Todas las predicciones deben interpretarse como estimaciones estadísticas, no como certezas.
