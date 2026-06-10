@@ -1,0 +1,257 @@
+---
+import Layout from "../layouts/Layout.astro";
+import predictions from "../data/predictions.json";
+
+const groups = predictions.groups;
+const matches = predictions.matches;
+const results = predictions.results;
+
+function pct(v: number) { return (v * 100).toFixed(1) + "%"; }
+function pct0(v: number) { return (v * 100).toFixed(0) + "%"; }
+function barColor(v: number) {
+  if (v >= 0.6) return "#2e7d32";
+  if (v >= 0.45) return "#e65100";
+  return "#c62828";
+}
+
+// Build chart data as JSON string for client-side script
+const chartData = JSON.stringify(
+  Object.fromEntries(
+    Object.entries(groups).map(([gk, teams]) => [
+      gk,
+      teams.map(t => ({ name: t.name, champion: t.champion, advance: t.advance })),
+    ])
+  )
+);
+---
+
+<Layout title="FIFA World Cup 2026 — Predictions">
+  <header class="header">
+    <div class="header-content">
+      <h1 class="title">FIFA World Cup <span class="gold">2026</span></h1>
+      <p class="subtitle">Probabilistic Predictions — Dixon-Coles Model + Monte Carlo Simulation</p>
+    </div>
+    <div class="header-stats">
+      <div class="stat"><span class="stat-val">48</span><span class="stat-lbl">Teams</span></div>
+      <div class="stat"><span class="stat-val">12</span><span class="stat-lbl">Groups</span></div>
+      <div class="stat"><span class="stat-val">104</span><span class="stat-lbl">Matches</span></div>
+      <div class="stat"><span class="stat-val">10K</span><span class="stat-lbl">Simulations</span></div>
+    </div>
+  </header>
+
+  <!-- Tabs -->
+  <nav class="tabs" id="tabNav">
+    <button class="tab active" data-tab="groups">Groups</button>
+    <button class="tab" data-tab="knockout">Knockout</button>
+    <button class="tab" data-tab="ranking">Champion Ranking</button>
+  </nav>
+
+  <!-- ==================== GROUPS ==================== -->
+  <section class="tab-content active" id="tab-groups">
+    <!-- Group selector grid -->
+    <div class="group-grid" id="groupGrid">
+      {Object.entries(groups).map(([gk, teams]) => (
+        <button class="group-btn" data-group={gk}>
+          <span class="group-label">Group {gk}</span>
+          <span class="group-teams">
+            {teams.map((t) => t.name).join(" · ")}
+          </span>
+        </button>
+      ))}
+    </div>
+
+    <!-- Group detail -->
+    {Object.entries(groups).map(([gk, teams]) => (
+      <div class="group-detail" id={`group-${gk}`} style="display:none;">
+        <h2 class="section-title">Group {gk}</h2>
+        <div class="team-cards">
+          {teams.map((t, i) => (
+            <div class={`team-card ${i === 0 ? "favored" : ""}`}>
+              <span class="team-name">{t.name}</span>
+              <div class="team-stats">
+                <span class="team-pct">Champion {pct(t.champion)}</span>
+                <span class="team-adv">Advance {pct0(t.advance)}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <h3>Matches</h3>
+        <div class="match-list">
+          {((matches as any)[gk] || []).map((m: any) => (
+            <div class="match-row">
+              <span class="match-team right">{m.home}</span>
+              <span class="match-score">{m.score}</span>
+              <span class="match-team">{m.away}</span>
+              <div class="match-bar">
+                <div class="bar-seg bar-h" style={`width:${m.home_pct * 200}px; background:${barColor(m.home_pct)}`}></div>
+                <div class="bar-seg bar-d" style={`width:${m.draw_pct * 200}px; background:#f9a825`}></div>
+                <div class="bar-seg bar-a" style={`width:${m.away_pct * 200}px; background:${barColor(m.away_pct)}`}></div>
+              </div>
+              <span class="match-odds">
+                <span style={`color:${barColor(m.home_pct)}`}>{pct0(m.home_pct)}</span>
+                <span style="color:#f9a825">{pct0(m.draw_pct)}</span>
+                <span style={`color:${barColor(m.away_pct)}`}>{pct0(m.away_pct)}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <!-- All groups summary chart -->
+    <div class="summary-chart">
+      <h3>All Groups — Qualification Probability</h3>
+      <div class="chart-hbars" id="groupsChart"></div>
+    </div>
+  </section>
+
+  <!-- ==================== KNOCKOUT ==================== -->
+  <section class="tab-content" id="tab-knockout">
+    <h2 class="section-title">Path to the Final</h2>
+
+    {[
+      { label: "Round of 32 (32)", key: "r32" },
+      { label: "Round of 16 (16)", key: "r16" },
+      { label: "Quarterfinals (8)", key: "qf" },
+      { label: "Semifinals (4)", key: "sf" },
+      { label: "Final (2)", key: "runner_up" },
+      { label: "Champion", key: "champion" },
+    ].map((round) => {
+      const sorted = [...results].sort((a, b) => (b as any)[round.key] - (a as any)[round.key]);
+      const count = round.key === "r32" ? 32 : round.key === "r16" ? 16 : round.key === "qf" ? 8 : round.key === "sf" ? 4 : round.key === "runner_up" ? 2 : 1;
+      const top = sorted.slice(0, count);
+      return (
+        <div class="ko-round">
+          <h3>{round.label}</h3>
+          <div class="ko-grid">
+            {top.map((t) => (
+              <div class="ko-card">
+                <span class="ko-team">{t.name}</span>
+                <div class="ko-bar-bg"><div class="ko-bar" style={`width:${(t as any)[round.key] * 100}%`}></div></div>
+                <span class="ko-pct">{pct((t as any)[round.key])}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    })}
+  </section>
+
+  <!-- ==================== RANKING ==================== -->
+  <section class="tab-content" id="tab-ranking">
+    <h2 class="section-title">Championship Probability Ranking</h2>
+
+    <div class="rank-list">
+      {results.map((t, i) => (
+        <div class={`rank-row ${i < 3 ? "top" + (i + 1) : ""}`}>
+          <span class="rank-pos">#{i + 1}</span>
+          <span class="rank-name">{t.name}</span>
+          <div class="rank-bar-bg">
+            <div class="rank-bar" style={`width:${t.champion * 100}%; background:${i < 5 ? 'var(--gold)' : i < 10 ? 'var(--blue)' : 'var(--muted)'}`}></div>
+          </div>
+          <span class="rank-val">{pct(t.champion)}</span>
+        </div>
+      ))}
+    </div>
+
+    <!-- Full table -->
+    <details class="full-table">
+      <summary>View Complete Probability Table</summary>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Team</th>
+              <th>Champion</th>
+              <th>Runner-Up</th>
+              <th>3rd Place</th>
+              <th>Semifinalist</th>
+              <th>Quarterfinalist</th>
+              <th>Round of 16</th>
+              <th>Round of 32</th>
+            </tr>
+          </thead>
+          <tbody>
+            {results.map((t) => (
+              <tr>
+                <td class="td-team">{t.name}</td>
+                <td>{pct(t.champion)}</td>
+                <td>{pct(t.runner_up)}</td>
+                <td>{pct(t.third)}</td>
+                <td>{pct(t.sf)}</td>
+                <td>{pct(t.qf)}</td>
+                <td>{pct(t.r16)}</td>
+                <td>{pct(t.r32)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div>
+        <strong>Methodology</strong>
+        <p>Dixon-Coles model (1997) · Poisson regression · Low-score correction · 10,000 Monte Carlo simulations</p>
+      </div>
+      <div>
+        <strong>Data</strong>
+        <p>~50,000 international matches (1872–2026) · martj42/international_results</p>
+      </div>
+      <div>
+        <strong>Disclaimer</strong>
+        <p>Predictions are probabilistic. Upsets are part of football. Actual results may vary.</p>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<script define:vars={{ chartData }}>
+  // Tab switching
+  document.querySelectorAll(".tab").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach((b) => b.classList.remove("active"));
+      document.querySelectorAll(".tab-content").forEach((c) => c.classList.remove("active"));
+      btn.classList.add("active");
+      const target = document.getElementById("tab-" + btn.dataset.tab);
+      if (target) target.classList.add("active");
+    });
+  });
+
+  // Group switching
+  document.querySelectorAll(".group-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".group-btn").forEach((b) => b.classList.remove("active"));
+      document.querySelectorAll(".group-detail").forEach((d: HTMLElement) => (d.style.display = "none"));
+      btn.classList.add("active");
+      const gd = document.getElementById("group-" + btn.dataset.group);
+      if (gd) (gd as HTMLElement).style.display = "block";
+    });
+  });
+
+  // Show first group by default
+  const firstGroup = document.querySelector('[data-group="A"]') as HTMLButtonElement;
+  if (firstGroup) firstGroup.click();
+
+  // Render groups summary chart
+  (function() {
+    const container = document.getElementById("groupsChart");
+    if (!container) return;
+    const groups = JSON.parse(chartData);
+    let html = "";
+    for (const [gk, teams] of Object.entries(groups)) {
+      html += '<div class="chart-group"><span class="chart-glabel">Group ' + gk + '</span>';
+      for (const t of teams as any[]) {
+        const w = (t.advance * 100).toFixed(0);
+        const bg = t.champion > 0.1 ? "var(--gold)" : "var(--blue)";
+        html += '<div class="chart-row"><span class="chart-name">' + t.name + '</span><div class="chart-bar-bg"><div class="chart-bar" style="width:' + w + '%;background:' + bg + '"></div></div><span class="chart-val">' + w + '%</span></div>';
+      }
+      html += "</div>";
+    }
+    container.innerHTML = html;
+  })();
+</script>
+</Layout>

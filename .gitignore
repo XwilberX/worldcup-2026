@@ -21,3 +21,6 @@ data/raw/results.csv
 
 # Streamlit
 .streamlit/secrets.toml
+site/node_modules/
+.venv/
+site/dist/

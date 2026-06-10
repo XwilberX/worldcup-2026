@@ -29,6 +29,7 @@ class DixonColes:
     def __init__(self, rho: float = 0.0, home_advantage: float = 1.0):
         self.rho = rho
         self.home_advantage = home_advantage
+        self.mu = 0.0
         self.attack: Dict[str, float] = {}
         self.defense: Dict[str, float] = {}
         self.teams: list = []
@@ -76,14 +77,15 @@ class DixonColes:
         hi_idx = np.array([team_to_idx[t] for t in df["home_team"]])
         ai_idx = np.array([team_to_idx[t] for t in df["away_team"]])
 
-        # Parameters: home_adv + attack[1:] + defense + rho
+        # Parameters: mu + home_adv + attack[1:] + defense + rho
         # attack[0] is fixed to 0
-        n_params = 1 + (n_teams - 1) + n_teams + 1
+        n_params = 1 + 1 + (n_teams - 1) + n_teams + 1
         # Index layout:
-        # 0: home_adv
-        # 1 to n_teams: attack[1:] (attack[0]=0)
-        # n_teams to 2*n_teams-1: defense
-        # 2*n_teams-1: rho
+        # 0: mu (baseline log-goals)
+        # 1: home_adv
+        # 2 to n_teams+1: attack[1:] (attack[0]=0)
+        # n_teams+1 to 2*n_teams: defense
+        # 2*n_teams: rho
 
         def inflate_attack(attack_compact):
             full = np.zeros(n_teams)
@@ -91,13 +93,14 @@ class DixonColes:
             return full
 
         def neg_log_likelihood(params):
-            home_adv = params[0]
-            attack = inflate_attack(params[1:n_teams])
-            defense = np.array(params[n_teams:2*n_teams])
+            mu = params[0]
+            home_adv = params[1]
+            attack = inflate_attack(params[2:n_teams+1])
+            defense = np.array(params[n_teams+1:2*n_teams+1])
             rho = params[-1]
 
-            log_lambda_home = home_adv + attack[hi_idx] - defense[ai_idx]
-            log_lambda_away = attack[ai_idx] - defense[hi_idx]
+            log_lambda_home = mu + home_adv + attack[hi_idx] - defense[ai_idx]
+            log_lambda_away = mu + attack[ai_idx] - defense[hi_idx]
 
             lambda_home = np.exp(np.clip(log_lambda_home, -10, 5))
             lambda_away = np.exp(np.clip(log_lambda_away, -10, 5))
@@ -118,14 +121,16 @@ class DixonColes:
             tau = np.maximum(tau, 1e-10)
             ll += np.log(tau)
 
-            # Penalties for constraints
-            defense_penalty = 500.0 * np.mean(defense) ** 2
+            # Soft penalties for identifiability (weak, to allow parameter spread)
+            attack_penalty = 10.0 * np.mean(attack) ** 2
+            defense_penalty = 10.0 * np.mean(defense) ** 2
 
-            return -np.sum(weights * ll) + defense_penalty
+            return -np.sum(weights * ll) + attack_penalty + defense_penalty
 
         init = np.zeros(n_params)
-        init[0] = 0.3   # home advantage (log scale)
-        init[-1] = -0.05 # rho
+        init[0] = np.log(df["home_score"].mean() + df["away_score"].mean()) / 2  # mu
+        init[1] = 0.25  # home_adv (log scale)
+        init[-1] = -0.05  # rho
 
         result = minimize(
             neg_log_likelihood,
@@ -134,18 +139,22 @@ class DixonColes:
             options={"maxiter": 20000, "disp": False},
         )
 
-        self.home_advantage = np.exp(result.x[0])
-        attack_full = inflate_attack(result.x[1:n_teams])
+        self.mu = result.x[0]
+        self.home_advantage = np.exp(result.x[1])
+        attack_full = inflate_attack(result.x[2:n_teams+1])
         self.attack = {t: attack_full[i] for i, t in enumerate(self.teams)}
-        self.defense = {t: result.x[n_teams + i] for i, t in enumerate(self.teams)}
+        self.defense = {t: result.x[n_teams+1 + i] for i, t in enumerate(self.teams)}
         self.rho = result.x[-1]
 
         if verbose:
+            print(f"  Mu: {self.mu:.4f} (baseline lambda: {np.exp(self.mu):.2f})")
             print(f"  Home advantage: {self.home_advantage:.3f}")
             print(f"  Rho: {self.rho:.4f}")
             print(f"  Converged: {result.success}")
             top_a = sorted(self.attack.items(), key=lambda x: x[1], reverse=True)[:5]
-            print(f"  Top attacks: {', '.join(f'{t}({v:.2f})' for t,v in top_a)}")
+            print(f"  Top attacks: {', '.join(f'{t}({v:.3f})' for t,v in top_a)}")
+            top_d = sorted(self.defense.items(), key=lambda x: x[1], reverse=True)[:5]
+            print(f"  Best defenses: {', '.join(f'{t}({v:.3f})' for t,v in top_d)}")
 
         return self
 
@@ -158,8 +167,8 @@ class DixonColes:
         a_away = self.attack.get(away_team, 0.0)
         d_away = self.defense.get(away_team, 0.0)
 
-        log_lambda_home = np.log(self.home_advantage) + a_home - d_away
-        log_lambda_away = a_away - d_home
+        log_lambda_home = self.mu + np.log(self.home_advantage) + a_home - d_away
+        log_lambda_away = self.mu + a_away - d_home
 
         lambda_home = np.exp(np.clip(log_lambda_home, -10, 5))
         lambda_away = np.exp(np.clip(log_lambda_away, -10, 5))
