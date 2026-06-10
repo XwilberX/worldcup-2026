@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIFA World Cup 2026 — Predictions</title>
+<style>
+:root{--bg:#f5f6fa;--white:#fff;--blue:#1a237e;--gold:#b8942d;--text:#1a1a2e;--muted:#5a6070;--border:#e2e5f0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+.header{background:linear-gradient(135deg,var(--blue),#283593);color:#fff;padding:28px 36px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.header h1{font-size:2.2rem;font-weight:800;letter-spacing:-.5px}.header h1 span{color:var(--gold)}
+.header p{font-size:.9rem;opacity:.8}
+.stats{display:flex;gap:24px}.stat{text-align:center}.stat b{display:block;font-size:1.6rem;color:var(--gold)}.stat s{display:block;font-size:.65rem;text-transform:uppercase;letter-spacing:1px;opacity:.7;text-decoration:none}
+.tabs{display:flex;gap:8px;padding:14px 36px;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+.tab{padding:8px 22px;border-radius:8px;border:1px solid var(--border);background:var(--white);color:var(--muted);font-size:.85rem;font-weight:600;cursor:pointer;transition:all .15s}
+.tab:hover{border-color:var(--gold)}.tab.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.content{max-width:1160px;margin:0 auto;padding:28px 36px}
+.content>div{display:none}.content>div.on{display:block}
+h2{font-size:1.4rem;font-weight:700;color:var(--blue);margin-bottom:16px}
+h3{font-size:1rem;color:var(--blue);margin:16px 0 10px}
+.ggrid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:24px}
+.gbtn{background:var(--white);border:2px solid var(--border);border-radius:10px;padding:12px 10px;cursor:pointer;text-align:center;transition:all .15s}
+.gbtn:hover{border-color:var(--gold);transform:translateY(-1px)}.gbtn.on{border-color:var(--gold);box-shadow:0 0 12px rgba(184,148,45,.15)}
+.gbtn b{display:block;font-size:1.2rem;color:var(--gold);margin-bottom:2px}
+.gbtn s{display:block;font-size:.65rem;color:var(--muted);line-height:1.4;text-decoration:none}
+.tcards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.tcard{background:var(--white);border:2px solid var(--border);border-radius:10px;padding:16px;text-align:center}
+.tcard.f{border-color:var(--gold)}.tcard b{display:block;font-weight:700;margin-bottom:4px}
+.tcard s{display:block;font-size:.75rem;text-decoration:none}.tcard .ch{color:var(--gold);font-weight:600}.tcard .ad{color:var(--muted)}
+.mrow{display:flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:5px}
+.mrow .mt{flex:1;font-weight:600;font-size:.9rem}.mrow .mt.r{text-align:right}
+.mrow .ms{font-weight:700;color:var(--gold);min-width:32px;text-align:center}
+.mrow .mbar{width:180px;display:flex;gap:1px;height:14px;border-radius:3px;overflow:hidden}
+.mrow .modds{display:flex;gap:8px;font-size:.7rem;font-weight:600;min-width:90px}
+.mbar div{height:100%}.g{background:#2e7d32}.y{background:#f9a825}.r{background:#c62828}
+.kogrid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:20px}
+.kocard{background:var(--white);border:1px solid var(--border);border-radius:6px;padding:8px;text-align:center}
+.kocard b{display:block;font-size:.72rem;margin-bottom:3px}
+.kocard .kbar{height:3px;background:var(--border);border-radius:1px;margin-bottom:3px}
+.kocard .kbar div{height:100%;background:var(--gold);border-radius:1px}
+.kocard s{display:block;font-size:.65rem;font-weight:700;color:var(--gold);text-decoration:none}
+.rlist{max-width:700px}
+.rrow{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border)}
+.rrow .pos{width:28px;font-weight:700;color:var(--muted);font-size:.8rem}
+.rrow .name{width:140px;font-weight:600;font-size:.85rem}
+.rrow .rbar{flex:1;height:20px;background:var(--border);border-radius:4px;overflow:hidden}
+.rrow .rbar div{height:100%;border-radius:4px;min-width:4px}
+.rrow .val{width:48px;font-weight:700;font-size:.8rem;color:var(--gold);text-align:right}
+.summary{margin-top:28px}.srow{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:.78rem}
+.srow .sn{width:120px;text-align:right;color:var(--muted)}
+.srow .sb{flex:1;height:15px;background:var(--border);border-radius:3px;overflow:hidden}
+.srow .sb div{height:100%;border-radius:3px}.srow .sv{width:34px;font-weight:600;color:var(--text);font-size:.72rem}
+.sgl{display:block;font-weight:700;color:var(--gold);font-size:.8rem;margin:8px 0 4px}
+footer{margin-top:40px;padding:24px 36px;background:var(--white);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+footer b{display:block;color:var(--blue);font-size:.8rem;margin-bottom:3px}
+footer p{font-size:.72rem;color:var(--muted)}
+@media(max-width:800px){.ggrid{grid-template-columns:repeat(3,1fr)}.tcards{grid-template-columns:repeat(2,1fr)}.kogrid{grid-template-columns:repeat(4,1fr)}.header,.tabs,.content,footer{padding-left:16px;padding-right:16px}.mbar{width:100px}footer{grid-template-columns:1fr}}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="header">
+  <div><h1>FIFA World Cup <span>2026</span></h1><p>Probabilistic Predictions · Dixon-Coles Model · 10K Monte Carlo Simulations</p></div>
+  <div class="stats"><div class="stat"><b>48</b><s>Teams</s></div><div class="stat"><b>12</b><s>Groups</s></div><div class="stat"><b>104</b><s>Matches</s></div><div class="stat"><b>10K</b><s>Sims</s></div></div>
+</header>
+<nav class="tabs"><button class="tab on" data-t="g">Groups</button><button class="tab" data-t="k">Knockout</button><button class="tab" data-t="r">Champion</button></nav>
+<main class="content"><div id="groups" class="on"></div><div id="knockout"></div><div id="ranking"></div></main>
+<footer><div><b>Methodology</b><p>Dixon-Coles model (1997) — Poisson regression with low-score correction. Time-weighted.</p></div><div><b>Data</b><p>~50,000 international matches (1872–2026). Official FIFA groups.</p></div><div><b>Disclaimer</b><p>Predictions are probabilistic. Upsets happen. Results may vary.</p></div></footer>
+
+<script id="preds-data" type="application/json">
+{"g": {"A": [{"n": "Mexico", "k": "Mexico", "ch": 0.0075, "ad": 0.9087, "r16": 0.9087, "qf": 0.455, "sf": 0.1938, "fi": 0.0241}, {"n": "South Africa", "k": "SouthAfrica", "ch": 0.0001, "ad": 0.515, "r16": 0.515, "qf": 0.1295, "sf": 0.0299, "fi": 0.0005}, {"n": "South Korea", "k": "KoreaRepublic", "ch": 0.0026, "ad": 0.7699, "r16": 0.7699, "qf": 0.3074, "sf": 0.1068, "fi": 0.01}, {"n": "Czech Republic", "k": "CzechRepublic", "ch": 0.0003, "ad": 0.5607, "r16": 0.5607, "qf": 0.1806, "sf": 0.0548, "fi": 0.0024}], "B": [{"n": "Canada", "k": "Canada", "ch": 0.0048, "ad": 0.9389, "r16": 0.9389, "qf": 0.4231, "sf": 0.1656, "fi": 0.018}, {"n": "Bosnia and Herzegovina", "k": "BosniaHerzegovina", "ch": 0.0, "ad": 0.5135, "r16": 0.5135, "qf": 0.0984, "sf": 0.0217, "fi": 0.0004}, {"n": "Qatar", "k": "Qatar", "ch": 0.0, "ad": 0.318, "r16": 0.318, "qf": 0.0509, "sf": 0.0074, "fi": 0.0001}, {"n": "Switzerland", "k": "Switzerland", "ch": 0.0111, "ad": 0.9275, "r16": 0.9275, "qf": 0.4749, "sf": 0.2088, "fi": 0.0309}], "C": [{"n": "Brazil", "k": "Brazil", "ch": 0.1775, "ad": 0.9992, "r16": 0.9992, "qf": 0.8212, "sf": 0.5987, "fi": 0.2798}, {"n": "Morocco", "k": "Morocco", "ch": 0.023, "ad": 0.9472, "r16": 0.9472, "qf": 0.5152, "sf": 0.2653, "fi": 0.058}, {"n": "Haiti", "k": "Haiti", "ch": 0.0, "ad": 0.1109, "r16": 0.1109, "qf": 0.0159, "sf": 0.002, "fi": 0.0}, {"n": "Scotland", "k": "Scotland", "ch": 0.0003, "ad": 0.4865, "r16": 0.4865, "qf": 0.1463, "sf": 0.0421, "fi": 0.0014}], "D": [{"n": "United States", "k": "UnitedStates", "ch": 0.0028, "ad": 0.7992, "r16": 0.7992, "qf": 0.3545, "sf": 0.1341, "fi": 0.012}, {"n": "Paraguay", "k": "Paraguay", "ch": 0.0075, "ad": 0.8251, "r16": 0.8251, "qf": 0.4039, "sf": 0.1787, "fi": 0.0245}, {"n": "Australia", "k": "Australia", "ch": 0.0043, "ad": 0.698, "r16": 0.698, "qf": 0.3014, "sf": 0.1238, "fi": 0.0153}, {"n": "Turkey", "k": "Turkey", "ch": 0.0012, "ad": 0.4593, "r16": 0.4593, "qf": 0.1599, "sf": 0.0564, "fi": 0.0036}], "E": [{"n": "Germany", "k": "Germany", "ch": 0.0202, "ad": 0.9874, "r16": 0.9874, "qf": 0.6108, "sf": 0.3105, "fi": 0.0595}, {"n": "Curaçao", "k": "Curacao", "ch": 0.0, "ad": 0.0925, "r16": 0.0925, "qf": 0.0089, "sf": 0.0006, "fi": 0.0001}, {"n": "Ivory Coast", "k": "IvoryCoast", "ch": 0.0011, "ad": 0.692, "r16": 0.692, "qf": 0.2218, "sf": 0.0713, "fi": 0.0057}, {"n": "Ecuador", "k": "Ecuador", "ch": 0.033, "ad": 0.9391, "r16": 0.9391, "qf": 0.5494, "sf": 0.2958, "fi": 0.0733}], "F": [{"n": "Netherlands", "k": "Netherlands", "ch": 0.0253, "ad": 0.9178, "r16": 0.9178, "qf": 0.5706, "sf": 0.3015, "fi": 0.0661}, {"n": "Japan", "k": "Japan", "ch": 0.0212, "ad": 0.878, "r16": 0.878, "qf": 0.5097, "sf": 0.2633, "fi": 0.0523}, {"n": "Sweden", "k": "Sweden", "ch": 0.0009, "ad": 0.4645, "r16": 0.4645, "qf": 0.1715, "sf": 0.0563, "fi": 0.0047}, {"n": "Tunisia", "k": "Tunisia", "ch": 0.0026, "ad": 0.4479, "r16": 0.4479, "qf": 0.1719, "sf": 0.0644, "fi": 0.0076}], "G": [{"n": "Belgium", "k": "Belgium", "ch": 0.0221, "ad": 0.9601, "r16": 0.9601, "qf": 0.5726, "sf": 0.2932, "fi": 0.0575}, {"n": "Egypt", "k": "Egypt", "ch": 0.0028, "ad": 0.7236, "r16": 0.7236, "qf": 0.2681, "sf": 0.0941, "fi": 0.0095}, {"n": "Iran", "k": "Iran", "ch": 0.0025, "ad": 0.7277, "r16": 0.7277, "qf": 0.2877, "sf": 0.1059, "fi": 0.0104}, {"n": "New Zealand", "k": "NewZealand", "ch": 0.0001, "ad": 0.2879, "r16": 0.2879, "qf": 0.0687, "sf": 0.0163, "fi": 0.0007}], "H": [{"n": "Spain", "k": "Spain", "ch": 0.0929, "ad": 0.9909, "r16": 0.9909, "qf": 0.7327, "sf": 0.4762, "fi": 0.1664}, {"n": "Cape Verde", "k": "CapeVerde", "ch": 0.0001, "ad": 0.3332, "r16": 0.3332, "qf": 0.0754, "sf": 0.0163, "fi": 0.0009}, {"n": "Saudi Arabia", "k": "SaudiArabia", "ch": 0.0001, "ad": 0.2837, "r16": 0.2837, "qf": 0.0623, "sf": 0.0121, "fi": 0.0003}, {"n": "Uruguay", "k": "Uruguay", "ch": 0.0438, "ad": 0.9309, "r16": 0.9309, "qf": 0.5672, "sf": 0.3296, "fi": 0.0961}], "I": [{"n": "France", "k": "France", "ch": 0.0627, "ad": 0.9773, "r16": 0.9773, "qf": 0.6841, "sf": 0.4177, "fi": 0.126}, {"n": "Senegal", "k": "Senegal", "ch": 0.008, "ad": 0.8223, "r16": 0.8223, "qf": 0.3762, "sf": 0.1613, "fi": 0.0229}, {"n": "Iraq", "k": "Iraq", "ch": 0.0002, "ad": 0.2037, "r16": 0.2037, "qf": 0.0439, "sf": 0.0112, "fi": 0.0002}, {"n": "Norway", "k": "Norway", "ch": 0.0044, "ad": 0.6803, "r16": 0.6803, "qf": 0.2877, "sf": 0.1142, "fi": 0.013}], "J": [{"n": "Argentina", "k": "Argentina", "ch": 0.2136, "ad": 0.9977, "r16": 0.9977, "qf": 0.8258, "sf": 0.6178, "fi": 0.3145}, {"n": "Algeria", "k": "Algeria", "ch": 0.0062, "ad": 0.8234, "r16": 0.8234, "qf": 0.3454, "sf": 0.1437, "fi": 0.0183}, {"n": "Austria", "k": "Austria", "ch": 0.0049, "ad": 0.7386, "r16": 0.7386, "qf": 0.3031, "sf": 0.1256, "fi": 0.0157}, {"n": "Jordan", "k": "Jordan", "ch": 0.0, "ad": 0.1104, "r16": 0.1104, "qf": 0.0227, "sf": 0.0042, "fi": 0.0}], "K": [{"n": "Portugal", "k": "Portugal", "ch": 0.0392, "ad": 0.9506, "r16": 0.9506, "qf": 0.613, "sf": 0.3445, "fi": 0.0873}, {"n": "DR Congo", "k": "DRCongo", "ch": 0.0001, "ad": 0.375, "r16": 0.375, "qf": 0.1086, "sf": 0.0338, "fi": 0.0016}, {"n": "Uzbekistan", "k": "Uzbekistan", "ch": 0.0006, "ad": 0.3425, "r16": 0.3425, "qf": 0.1091, "sf": 0.0314, "fi": 0.0023}, {"n": "Colombia", "k": "Colombia", "ch": 0.0889, "ad": 0.939, "r16": 0.939, "qf": 0.6821, "sf": 0.4494, "fi": 0.165}], "L": [{"n": "England", "k": "England", "ch": 0.0455, "ad": 0.9849, "r16": 0.9849, "qf": 0.6572, "sf": 0.3811, "fi": 0.0998}, {"n": "Croatia", "k": "Croatia", "ch": 0.0139, "ad": 0.9322, "r16": 0.9322, "qf": 0.4879, "sf": 0.2279, "fi": 0.0407}, {"n": "Ghana", "k": "Ghana", "ch": 0.0001, "ad": 0.394, "r16": 0.394, "qf": 0.0979, "sf": 0.0254, "fi": 0.0003}, {"n": "Panama", "k": "Panama", "ch": 0.0, "ad": 0.2933, "r16": 0.2933, "qf": 0.0679, "sf": 0.0135, "fi": 0.0003}]}, "m": {"A": [{"home": "Mexico", "away": "South Africa", "score": "1-0", "hp": 0.6441, "dp": 0.2159, "ap": 0.14, "city": "Mexico City"}, {"home": "Mexico", "away": "South Korea", "score": "1-0", "hp": 0.5001, "dp": 0.2479, "ap": 0.2519, "city": "Zapopan"}, {"home": "Mexico", "away": "Czech Republic", "score": "1-0", "hp": 0.5706, "dp": 0.2243, "ap": 0.2051, "city": "Mexico City"}, {"home": "South Africa", "away": "South Korea", "score": "0-1", "hp": 0.2793, "dp": 0.2568, "ap": 0.4639, "city": "Guadalupe"}, {"home": "South Korea", "away": "Czech Republic", "score": "1-0", "hp": 0.5155, "dp": 0.2278, "ap": 0.2567, "city": "Zapopan"}], "B": [{"home": "Canada", "away": "Bosnia and Herzegovina", "score": "1-0", "hp": 0.6791, "dp": 0.1971, "ap": 0.1238, "city": "Toronto"}, {"home": "Canada", "away": "Qatar", "score": "1-0", "hp": 0.7419, "dp": 0.156, "ap": 0.102, "city": "Vancouver"}, {"home": "Canada", "away": "Switzerland", "score": "0-1", "hp": 0.3644, "dp": 0.2552, "ap": 0.3804, "city": "Vancouver"}, {"home": "Bosnia and Herzegovina", "away": "Qatar", "score": "1-0", "hp": 0.4865, "dp": 0.2298, "ap": 0.2837, "city": "Seattle"}, {"home": "Qatar", "away": "Switzerland", "score": "0-1", "hp": 0.1278, "dp": 0.1585, "ap": 0.7137, "city": "Santa Clara"}], "C": [{"home": "Brazil", "away": "Morocco", "score": "1-0", "hp": 0.63, "dp": 0.2248, "ap": 0.1451, "city": "East Rutherford"}, {"home": "Brazil", "away": "Haiti", "score": "4-0", "hp": 0.9717, "dp": 0.0218, "ap": 0.0065, "city": "Philadelphia"}, {"home": "Morocco", "away": "Haiti", "score": "1-0", "hp": 0.8426, "dp": 0.1125, "ap": 0.0449, "city": "Atlanta"}, {"home": "Haiti", "away": "Scotland", "score": "0-1", "hp": 0.2321, "dp": 0.2129, "ap": 0.555, "city": "Foxborough"}], "D": [{"home": "United States", "away": "Paraguay", "score": "1-0", "hp": 0.388, "dp": 0.2477, "ap": 0.3643, "city": "Inglewood"}, {"home": "United States", "away": "Australia", "score": "1-0", "hp": 0.4446, "dp": 0.2379, "ap": 0.3176, "city": "Seattle"}, {"home": "United States", "away": "Turkey", "score": "1-0", "hp": 0.5345, "dp": 0.2036, "ap": 0.262, "city": "Inglewood"}, {"home": "Paraguay", "away": "Australia", "score": "1-0", "hp": 0.4711, "dp": 0.269, "ap": 0.26, "city": "Santa Clara"}, {"home": "Australia", "away": "Turkey", "score": "1-0", "hp": 0.516, "dp": 0.2273, "ap": 0.2566, "city": "Vancouver"}], "E": [{"home": "Germany", "away": "Curaçao", "score": "4-0", "hp": 0.9433, "dp": 0.0409, "ap": 0.0158, "city": "Houston"}, {"home": "Germany", "away": "Ivory Coast", "score": "1-0", "hp": 0.685, "dp": 0.1778, "ap": 0.1372, "city": "Toronto"}, {"home": "Curaçao", "away": "Ivory Coast", "score": "0-1", "hp": 0.1477, "dp": 0.2122, "ap": 0.6401, "city": "Philadelphia"}, {"home": "Ivory Coast", "away": "Ecuador", "score": "0-1", "hp": 0.2015, "dp": 0.3027, "ap": 0.4958, "city": "Philadelphia"}], "F": [{"home": "Netherlands", "away": "Japan", "score": "1-0", "hp": 0.4657, "dp": 0.225, "ap": 0.3093, "city": "Arlington"}, {"home": "Netherlands", "away": "Sweden", "score": "1-0", "hp": 0.6815, "dp": 0.1656, "ap": 0.153, "city": "Houston"}, {"home": "Japan", "away": "Sweden", "score": "1-0", "hp": 0.6579, "dp": 0.181, "ap": 0.1611, "city": "Arlington"}, {"home": "Sweden", "away": "Tunisia", "score": "1-0", "hp": 0.4281, "dp": 0.2579, "ap": 0.314, "city": "Guadalupe"}], "G": [{"home": "Belgium", "away": "Egypt", "score": "1-0", "hp": 0.6084, "dp": 0.2225, "ap": 0.1691, "city": "Seattle"}, {"home": "Belgium", "away": "Iran", "score": "1-0", "hp": 0.6027, "dp": 0.2072, "ap": 0.19, "city": "Inglewood"}, {"home": "Egypt", "away": "Iran", "score": "1-0", "hp": 0.3858, "dp": 0.2868, "ap": 0.3274, "city": "Seattle"}, {"home": "Iran", "away": "New Zealand", "score": "1-0", "hp": 0.5981, "dp": 0.2287, "ap": 0.1732, "city": "Inglewood"}], "H": [{"home": "Spain", "away": "Cape Verde", "score": "2-0", "hp": 0.8865, "dp": 0.0816, "ap": 0.032, "city": "Atlanta"}, {"home": "Spain", "away": "Saudi Arabia", "score": "2-0", "hp": 0.88, "dp": 0.0859, "ap": 0.0342, "city": "Atlanta"}, {"home": "Cape Verde", "away": "Saudi Arabia", "score": "1-0", "hp": 0.4124, "dp": 0.2793, "ap": 0.3083, "city": "Houston"}, {"home": "Saudi Arabia", "away": "Uruguay", "score": "0-1", "hp": 0.1036, "dp": 0.2123, "ap": 0.6842, "city": "Miami Gardens"}], "I": [{"home": "France", "away": "Senegal", "score": "1-0", "hp": 0.6045, "dp": 0.2283, "ap": 0.1672, "city": "East Rutherford"}, {"home": "France", "away": "Iraq", "score": "1-0", "hp": 0.8444, "dp": 0.1128, "ap": 0.0428, "city": "Philadelphia"}, {"home": "Senegal", "away": "Iraq", "score": "1-0", "hp": 0.6795, "dp": 0.2138, "ap": 0.1067, "city": "Toronto"}, {"home": "Iraq", "away": "Norway", "score": "0-1", "hp": 0.1913, "dp": 0.2296, "ap": 0.5792, "city": "Foxborough"}], "J": [{"home": "Argentina", "away": "Algeria", "score": "1-0", "hp": 0.801, "dp": 0.1352, "ap": 0.0638, "city": "Kansas City"}, {"home": "Argentina", "away": "Austria", "score": "1-0", "hp": 0.7847, "dp": 0.1498, "ap": 0.0655, "city": "Arlington"}, {"home": "Algeria", "away": "Austria", "score": "1-0", "hp": 0.4625, "dp": 0.2297, "ap": 0.3078, "city": "Kansas City"}, {"home": "Austria", "away": "Jordan", "score": "1-0", "hp": 0.7275, "dp": 0.1605, "ap": 0.112, "city": "Santa Clara"}], "K": [{"home": "Portugal", "away": "DR Congo", "score": "1-0", "hp": 0.7518, "dp": 0.164, "ap": 0.0842, "city": "Houston"}, {"home": "Portugal", "away": "Uzbekistan", "score": "1-0", "hp": 0.7314, "dp": 0.1729, "ap": 0.0957, "city": "Houston"}, {"home": "DR Congo", "away": "Uzbekistan", "score": "1-0", "hp": 0.3735, "dp": 0.315, "ap": 0.3115, "city": "Atlanta"}, {"home": "Uzbekistan", "away": "Colombia", "score": "0-1", "hp": 0.1146, "dp": 0.1993, "ap": 0.686, "city": "Mexico City"}], "L": [{"home": "England", "away": "Croatia", "score": "1-0", "hp": 0.5512, "dp": 0.239, "ap": 0.2097, "city": "Arlington"}, {"home": "England", "away": "Ghana", "score": "1-0", "hp": 0.8065, "dp": 0.1324, "ap": 0.0611, "city": "Foxborough"}, {"home": "Croatia", "away": "Ghana", "score": "1-0", "hp": 0.7282, "dp": 0.1676, "ap": 0.1042, "city": "Philadelphia"}, {"home": "Ghana", "away": "Panama", "score": "1-0", "hp": 0.4375, "dp": 0.2422, "ap": 0.3204, "city": "Toronto"}]}, "r": [{"n": "Argentina", "ch": 0.2136, "ru": 0.1009, "th": 0.0958, "sf": 0.6178, "qf": 0.8258, "r16": 0.9977, "r32": 0.9977}, {"n": "Brazil", "ch": 0.1775, "ru": 0.1023, "th": 0.0938, "sf": 0.5987, "qf": 0.8212, "r16": 0.9992, "r32": 0.9992}, {"n": "Spain", "ch": 0.0929, "ru": 0.0735, "th": 0.0729, "sf": 0.4762, "qf": 0.7327, "r16": 0.9909, "r32": 0.9909}, {"n": "Colombia", "ch": 0.0889, "ru": 0.0761, "th": 0.0741, "sf": 0.4494, "qf": 0.6821, "r16": 0.939, "r32": 0.939}, {"n": "France", "ch": 0.0627, "ru": 0.0633, "th": 0.06, "sf": 0.4177, "qf": 0.6841, "r16": 0.9773, "r32": 0.9773}, {"n": "England", "ch": 0.0455, "ru": 0.0543, "th": 0.0572, "sf": 0.3811, "qf": 0.6572, "r16": 0.9849, "r32": 0.9849}, {"n": "Uruguay", "ch": 0.0438, "ru": 0.0523, "th": 0.0483, "sf": 0.3296, "qf": 0.5672, "r16": 0.9309, "r32": 0.9309}, {"n": "Portugal", "ch": 0.0392, "ru": 0.0481, "th": 0.0522, "sf": 0.3445, "qf": 0.613, "r16": 0.9506, "r32": 0.9506}, {"n": "Ecuador", "ch": 0.033, "ru": 0.0403, "th": 0.0399, "sf": 0.2958, "qf": 0.5494, "r16": 0.9391, "r32": 0.9391}, {"n": "Netherlands", "ch": 0.0253, "ru": 0.0408, "th": 0.0375, "sf": 0.3015, "qf": 0.5706, "r16": 0.9178, "r32": 0.9178}, {"n": "Morocco", "ch": 0.023, "ru": 0.035, "th": 0.0338, "sf": 0.2653, "qf": 0.5152, "r16": 0.9472, "r32": 0.9472}, {"n": "Belgium", "ch": 0.0221, "ru": 0.0354, "th": 0.0348, "sf": 0.2932, "qf": 0.5726, "r16": 0.9601, "r32": 0.9601}, {"n": "Japan", "ch": 0.0212, "ru": 0.0311, "th": 0.0337, "sf": 0.2633, "qf": 0.5097, "r16": 0.878, "r32": 0.878}, {"n": "Germany", "ch": 0.0202, "ru": 0.0393, "th": 0.0383, "sf": 0.3105, "qf": 0.6108, "r16": 0.9874, "r32": 0.9874}, {"n": "Croatia", "ch": 0.0139, "ru": 0.0268, "th": 0.0252, "sf": 0.2279, "qf": 0.4879, "r16": 0.9322, "r32": 0.9322}, {"n": "Switzerland", "ch": 0.0111, "ru": 0.0198, "th": 0.021, "sf": 0.2088, "qf": 0.4749, "r16": 0.9275, "r32": 0.9275}, {"n": "Senegal", "ch": 0.008, "ru": 0.0149, "th": 0.015, "sf": 0.1613, "qf": 0.3762, "r16": 0.8223, "r32": 0.8223}, {"n": "Mexico", "ch": 0.0075, "ru": 0.0166, "th": 0.0201, "sf": 0.1938, "qf": 0.455, "r16": 0.9087, "r32": 0.9087}, {"n": "Paraguay", "ch": 0.0075, "ru": 0.017, "th": 0.0184, "sf": 0.1787, "qf": 0.4039, "r16": 0.8251, "r32": 0.8251}, {"n": "Algeria", "ch": 0.0062, "ru": 0.0121, "th": 0.0122, "sf": 0.1437, "qf": 0.3454, "r16": 0.8234, "r32": 0.8234}, {"n": "Austria", "ch": 0.0049, "ru": 0.0108, "th": 0.0134, "sf": 0.1256, "qf": 0.3031, "r16": 0.7386, "r32": 0.7386}, {"n": "Canada", "ch": 0.0048, "ru": 0.0132, "th": 0.0144, "sf": 0.1656, "qf": 0.4231, "r16": 0.9389, "r32": 0.9389}, {"n": "Norway", "ch": 0.0044, "ru": 0.0086, "th": 0.0118, "sf": 0.1142, "qf": 0.2877, "r16": 0.6803, "r32": 0.6803}, {"n": "Australia", "ch": 0.0043, "ru": 0.011, "th": 0.0117, "sf": 0.1238, "qf": 0.3014, "r16": 0.698, "r32": 0.698}, {"n": "United States", "ch": 0.0028, "ru": 0.0092, "th": 0.0105, "sf": 0.1341, "qf": 0.3545, "r16": 0.7992, "r32": 0.7992}, {"n": "Egypt", "ch": 0.0028, "ru": 0.0067, "th": 0.0078, "sf": 0.0941, "qf": 0.2681, "r16": 0.7236, "r32": 0.7236}, {"n": "Tunisia", "ch": 0.0026, "ru": 0.005, "th": 0.0045, "sf": 0.0644, "qf": 0.1719, "r16": 0.4479, "r32": 0.4479}, {"n": "South Korea", "ch": 0.0026, "ru": 0.0074, "th": 0.0075, "sf": 0.1068, "qf": 0.3074, "r16": 0.7699, "r32": 0.7699}, {"n": "Iran", "ch": 0.0025, "ru": 0.0079, "th": 0.009, "sf": 0.1059, "qf": 0.2877, "r16": 0.7277, "r32": 0.7277}, {"n": "Turkey", "ch": 0.0012, "ru": 0.0024, "th": 0.0032, "sf": 0.0564, "qf": 0.1599, "r16": 0.4593, "r32": 0.4593}, {"n": "Ivory Coast", "ch": 0.0011, "ru": 0.0046, "th": 0.0056, "sf": 0.0713, "qf": 0.2218, "r16": 0.692, "r32": 0.692}, {"n": "Sweden", "ch": 0.0009, "ru": 0.0038, "th": 0.0029, "sf": 0.0563, "qf": 0.1715, "r16": 0.4645, "r32": 0.4645}, {"n": "Uzbekistan", "ch": 0.0006, "ru": 0.0017, "th": 0.0016, "sf": 0.0314, "qf": 0.1091, "r16": 0.3425, "r32": 0.3425}, {"n": "Scotland", "ch": 0.0003, "ru": 0.0011, "th": 0.0024, "sf": 0.0421, "qf": 0.1463, "r16": 0.4865, "r32": 0.4865}, {"n": "Czech Republic", "ch": 0.0003, "ru": 0.0021, "th": 0.0034, "sf": 0.0548, "qf": 0.1806, "r16": 0.5607, "r32": 0.5607}, {"n": "Iraq", "ch": 0.0002, "ru": 0.0, "th": 0.0004, "sf": 0.0112, "qf": 0.0439, "r16": 0.2037, "r32": 0.2037}, {"n": "Saudi Arabia", "ch": 0.0001, "ru": 0.0002, "th": 0.0, "sf": 0.0121, "qf": 0.0623, "r16": 0.2837, "r32": 0.2837}, {"n": "Ghana", "ch": 0.0001, "ru": 0.0002, "th": 0.0008, "sf": 0.0254, "qf": 0.0979, "r16": 0.394, "r32": 0.394}, {"n": "Cape Verde", "ch": 0.0001, "ru": 0.0008, "th": 0.0003, "sf": 0.0163, "qf": 0.0754, "r16": 0.3332, "r32": 0.3332}, {"n": "New Zealand", "ch": 0.0001, "ru": 0.0006, "th": 0.0006, "sf": 0.0163, "qf": 0.0687, "r16": 0.2879, "r32": 0.2879}, {"n": "South Africa", "ch": 0.0001, "ru": 0.0004, "th": 0.0011, "sf": 0.0299, "qf": 0.1295, "r16": 0.515, "r32": 0.515}, {"n": "DR Congo", "ch": 0.0001, "ru": 0.0015, "th": 0.0018, "sf": 0.0338, "qf": 0.1086, "r16": 0.375, "r32": 0.375}, {"n": "Haiti", "ch": 0.0, "ru": 0.0, "th": 0.0001, "sf": 0.002, "qf": 0.0159, "r16": 0.1109, "r32": 0.1109}, {"n": "Bosnia and Herzegovina", "ch": 0.0, "ru": 0.0004, "th": 0.0003, "sf": 0.0217, "qf": 0.0984, "r16": 0.5135, "r32": 0.5135}, {"n": "Jordan", "ch": 0.0, "ru": 0.0, "th": 0.0003, "sf": 0.0042, "qf": 0.0227, "r16": 0.1104, "r32": 0.1104}, {"n": "Qatar", "ch": 0.0, "ru": 0.0001, "th": 0.0001, "sf": 0.0074, "qf": 0.0509, "r16": 0.318, "r32": 0.318}, {"n": "Curaçao", "ch": 0.0, "ru": 0.0001, "th": 0.0, "sf": 0.0006, "qf": 0.0089, "r16": 0.0925, "r32": 0.0925}, {"n": "Panama", "ch": 0.0, "ru": 0.0003, "th": 0.0003, "sf": 0.0135, "qf": 0.0679, "r16": 0.2933, "r32": 0.2933}]}
+</script>
+<script id="flags-data" type="application/json">
+{"Mexico": "\ud83c\uddf2\ud83c\uddfd", "South Africa": "\ud83c\uddff\ud83c\udde6", "South Korea": "\ud83c\uddf0\ud83c\uddf7", "Czech Republic": "\ud83c\udde8\ud83c\uddff", "Canada": "\ud83c\udde8\ud83c\udde6", "Bosnia and Herzegovina": "\ud83c\udde7\ud83c\udde6", "Qatar": "\ud83c\uddf6\ud83c\udde6", "Switzerland": "\ud83c\udde8\ud83c\udded", "Brazil": "\ud83c\udde7\ud83c\uddf7", "Morocco": "\ud83c\uddf2\ud83c\udde6", "Haiti": "\ud83c\udded\ud83c\uddf9", "Scotland": "\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc73\udb40\udc63\udb40\udc74\udb40\udc7f", "United States": "\ud83c\uddfa\ud83c\uddf8", "Paraguay": "\ud83c\uddf5\ud83c\uddfe", "Australia": "\ud83c\udde6\ud83c\uddfa", "Turkey": "\ud83c\uddf9\ud83c\uddf7", "Germany": "\ud83c\udde9\ud83c\uddea", "Cura\u00e7ao": "\ud83c\udde8\ud83c\uddfc", "Ivory Coast": "\ud83c\udde8\ud83c\uddee", "Ecuador": "\ud83c\uddea\ud83c\udde8", "Netherlands": "\ud83c\uddf3\ud83c\uddf1", "Japan": "\ud83c\uddef\ud83c\uddf5", "Sweden": "\ud83c\uddf8\ud83c\uddea", "Tunisia": "\ud83c\uddf9\ud83c\uddf3", "Belgium": "\ud83c\udde7\ud83c\uddea", "Egypt": "\ud83c\uddea\ud83c\uddec", "Iran": "\ud83c\uddee\ud83c\uddf7", "New Zealand": "\ud83c\uddf3\ud83c\uddff", "Spain": "\ud83c\uddea\ud83c\uddf8", "Cape Verde": "\ud83c\udde8\ud83c\uddfb", "Saudi Arabia": "\ud83c\uddf8\ud83c\udde6", "Uruguay": "\ud83c\uddfa\ud83c\uddfe", "France": "\ud83c\uddeb\ud83c\uddf7", "Senegal": "\ud83c\uddf8\ud83c\uddf3", "Iraq": "\ud83c\uddee\ud83c\uddf6", "Norway": "\ud83c\uddf3\ud83c\uddf4", "Argentina": "\ud83c\udde6\ud83c\uddf7", "Algeria": "\ud83c\udde9\ud83c\uddff", "Austria": "\ud83c\udde6\ud83c\uddf9", "Jordan": "\ud83c\uddef\ud83c\uddf4", "Portugal": "\ud83c\uddf5\ud83c\uddf9", "DR Congo": "\ud83c\udde8\ud83c\udde9", "Uzbekistan": "\ud83c\uddfa\ud83c\uddff", "Colombia": "\ud83c\udde8\ud83c\uddf4", "England": "\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f", "Croatia": "\ud83c\udded\ud83c\uddf7", "Ghana": "\ud83c\uddec\ud83c\udded", "Panama": "\ud83c\uddf5\ud83c\udde6"}
+</script>
+
+<script>
+var d=JSON.parse(document.getElementById("preds-data").textContent.trim());
+var f=JSON.parse(document.getElementById("flags-data").textContent.trim());
+(function(){
+  function fl(n){return f[n]||"";}
+  function pct(v){return(v*100).toFixed(1)+"%";}
+  function pct0(v){return(v*100).toFixed(0)+"%";}
+  function bc(v){return v>=0.6?"g":v>=0.45?"y":"r";}
+
+  var gk=Object.keys(d.g).sort(),gh='<div class="ggrid">';
+  gk.forEach(function(g){
+    var ts=d.g[g].map(function(t){return t.n;}).join(" · ");
+    gh+='<button class="gbtn" data-g="'+g+'"><b>Group '+g+'</b><s>'+ts+'</s></button>';
+  });
+  gh+='</div><div id="gdetails"></div>';
+  gh+='<div class="summary"><h3>All Groups — Qualification Probability</h3>';
+  gk.forEach(function(g){
+    gh+='<span class="sgl">Group '+g+'</span>';
+    d.g[g].forEach(function(t){
+      var w=pct0(t.ad),bg=t.ch>0.1?"var(--gold)":"var(--blue)";
+      gh+='<div class="srow"><span class="sn">'+fl(t.n)+' '+t.n+'</span><div class="sb"><div style="width:'+w+';background:'+bg+'"></div></div><span class="sv">'+w+'</span></div>';
+    });
+  });
+  gh+='</div>';
+  document.getElementById("groups").innerHTML=gh;
+
+  function showGroup(g){
+    var ts=d.g[g],h='<h2>Group '+g+'</h2><div class="tcards">';
+    ts.forEach(function(t,i){
+      var fc=i===0?"f":"";
+      h+='<div class="tcard '+fc+'"><b>'+fl(t.n)+' '+t.n+'</b><s class="ch">Champion '+pct(t.ch)+'</s><s class="ad">Advance '+pct0(t.ad)+'</s></div>';
+    });
+    h+='</div><h3>Matches</h3>';
+    var ms=d.m[g]||[];
+    ms.forEach(function(m){
+      h+='<div class="mrow"><span class="mt r">'+fl(m.home)+' '+m.home+'</span><span class="ms">'+m.score+'</span><span class="mt">'+fl(m.away)+' '+m.away+'</span><div class="mbar"><div class="'+bc(m.hp)+'" style="width:'+(m.hp*180)+'px"></div><div class="y" style="width:'+(m.dp*180)+'px"></div><div class="'+bc(m.ap)+'" style="width:'+(m.ap*180)+'px"></div></div><span class="modds"><span class="'+bc(m.hp)+'">'+pct0(m.hp)+'</span><span class="y">'+pct0(m.dp)+'</span><span class="'+bc(m.ap)+'">'+pct0(m.ap)+'</span></span></div>';
+    });
+    document.getElementById("gdetails").innerHTML=h;
+  }
+
+  document.querySelectorAll(".gbtn").forEach(function(b){
+    b.addEventListener("click",function(){
+      document.querySelectorAll(".gbtn").forEach(function(x){x.classList.remove("on");});
+      this.classList.add("on");showGroup(this.dataset.g);
+    });
+  });
+  var ga=document.querySelector('[data-g="A"]');
+  if(ga){ga.classList.add("on");showGroup("A");}
+
+  // Knockout
+  var rds=[
+    {l:"Round of 32 (32 teams)",k:"r32",n:32},
+    {l:"Round of 16 (16)",k:"r16",n:16},
+    {l:"Quarterfinals (8)",k:"qf",n:8},
+    {l:"Semifinals (4)",k:"sf",n:4},
+    {l:"Final (2)",k:"ru",n:2},
+    {l:"Champion",k:"ch",n:1}
+  ];
+  var kh='<h2>Path to the Final</h2>';
+  rds.forEach(function(r){
+    var top=d.r.slice().sort(function(a,b){return b[r.k]-a[r.k];}).slice(0,r.n);
+    kh+='<h3>'+r.l+'</h3><div class="kogrid">';
+    top.forEach(function(t){
+      kh+='<div class="kocard"><b>'+fl(t.n)+' '+t.n+'</b><div class="kbar"><div style="width:'+pct0(t[r.k])+'"></div></div><s>'+pct(t[r.k])+'</s></div>';
+    });
+    kh+='</div>';
+  });
+  document.getElementById("knockout").innerHTML=kh;
+
+  // Ranking
+  var rh='<h2>Championship Probability</h2><div class="rlist">';
+  d.r.forEach(function(t,i){
+    var bg=i<5?"var(--gold)":i<10?"var(--blue)":"var(--muted)";
+    rh+='<div class="rrow"><span class="pos">#'+(i+1)+'</span><span class="name">'+fl(t.n)+' '+t.n+'</span><div class="rbar"><div style="width:'+pct(t.ch)+';background:'+bg+'"></div></div><span class="val">'+pct(t.ch)+'</span></div>';
+  });
+  rh+='</div>';
+  document.getElementById("ranking").innerHTML=rh;
+
+  // Tabs
+  document.querySelectorAll(".tab").forEach(function(b){
+    b.addEventListener("click",function(){
+      document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("on");});
+      document.querySelectorAll(".content>div").forEach(function(x){x.classList.remove("on");});
+      this.classList.add("on");
+      document.getElementById({g:"groups",k:"knockout",r:"ranking"}[this.dataset.t]).classList.add("on");
+    });
+  });
+})();
+</script>
+</body>
+</html>
